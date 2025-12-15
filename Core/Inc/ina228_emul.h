@@ -15,6 +15,10 @@ void INA228_Emu_Init(void);
 // current 单位：A（电流，可正可负）
 void INA228_Emu_UpdateMeasurements(float v_bus, float current);
 
+// 新增：I2C1 中断处理
+void INA228_Emu_I2C1_EV_IRQHandler(void);
+void INA228_Emu_I2C1_ER_IRQHandler(void);
+
 #ifdef __cplusplus
 }
 #endif

@@ -106,6 +106,9 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
+   
+
+    /* USER CODE BEGIN 3 */
     float v_bus   = 12.5f;   // TODO: 用 ADC 算出来
     float current = 10.0f;   // TODO: 用你的算法算出来
 
@@ -113,7 +116,9 @@ int main(void)
 
     HAL_Delay(10);
 
-    /* USER CODE BEGIN 3 */
+
+
+
   }
   /* USER CODE END 3 */
 }

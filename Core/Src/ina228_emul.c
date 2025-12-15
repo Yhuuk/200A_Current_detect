@@ -5,19 +5,20 @@
 // ---------- INA228 常量（和 PX4 驱动保持一致） ----------
 #define INA228_I2C_ADDRESS      0x45      // 7-bit 地址（和 PX4 INA228_BASEADDR 一样）
 
-#define INA228_REG_CONFIG       0x00
-#define INA228_REG_ADC_CONFIG   0x01
-#define INA228_REG_SHUNT_CAL    0x02
-#define INA228_REG_VSHUNT       0x04
-#define INA228_REG_VBUS         0x05
-#define INA228_REG_DIETEMP      0x06
-#define INA228_REG_CURRENT      0x07
-#define INA228_REG_POWER        0x08
-#define INA228_REG_MANUF_ID     0x3E
-#define INA228_REG_DEVICE_ID    0x3F
+/*地址字节先高后低*/ 
+#define INA228_REG_CONFIG       0x00    // 配置寄存器
+#define INA228_REG_ADC_CONFIG   0x01    // ADC 配置寄存器
+#define INA228_REG_SHUNT_CAL    0x02    // 分流电阻校准寄存器
+#define INA228_REG_VSHUNT       0x04    // 分流电压寄存器
+#define INA228_REG_VBUS         0x05    // 总线电压寄存器
+#define INA228_REG_DIETEMP      0x06    // 芯片温度寄存器
+#define INA228_REG_CURRENT      0x07    // 电流结果寄存器
+#define INA228_REG_POWER        0x08    // 功率寄存器
+#define INA228_REG_MANUF_ID     0x3E    // 制造商 ID 寄存器
+#define INA228_REG_DEVICE_ID    0x3F    // 设备 ID 寄存器
 
-#define INA228_MFG_ID_TI        0x5449    // 'TI'
-#define INA228_MFG_DIE          0x228
+#define INA228_MFG_ID_TI        0x5449    // 'TI' ,INA228_REG_MANUF_ID寄存器的复位值
+#define INA228_MFG_DIE          0x228      // INA228 芯片，INA228_REG_DEVICE_ID寄存器的复位值高12位
 
 // 电压 LSB（和 PX4 驱动里的 INA228_VSCALE 一致）
 #define INA228_VSCALE           1.953125e-4f   // 195.3125 uV/LSB
@@ -113,32 +114,6 @@ static uint8_t prepare_tx_buffer(uint8_t reg, uint8_t *buf)
     }
 }
 
-// // ---------- HAL 的 MSP 初始化（配置 I2C1 时钟和 GPIO） ----------
-// // 注意：I2C1 使用 PB6 = SCL, PB7 = SDA
-// void HAL_I2C_MspInit(I2C_HandleTypeDef *hi2c)
-// {
-//     if (hi2c->Instance == I2C1) {
-//         GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-//         // GPIOB & I2C1 时钟
-//         __HAL_RCC_GPIOB_CLK_ENABLE();
-//         __HAL_RCC_I2C1_CLK_ENABLE();
-
-//         // PB6/PB7 复用开漏
-//         GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
-//         GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
-//         GPIO_InitStruct.Pull = GPIO_NOPULL;
-//         GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-//         HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-//         // I2C1 事件 & 错误中断（可选，强烈建议打开）
-//         HAL_NVIC_SetPriority(I2C1_EV_IRQn, 1, 0);
-//         HAL_NVIC_EnableIRQ(I2C1_EV_IRQn);
-
-//         HAL_NVIC_SetPriority(I2C1_ER_IRQn, 1, 1);
-//         HAL_NVIC_EnableIRQ(I2C1_ER_IRQn);
-//     }
-// }
 
 // ---------- 对外接口：初始化 I2C + 寄存器 ----------
 void INA228_Emu_Init(void)

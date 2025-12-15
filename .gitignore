@@ -1,8 +1,8 @@
 # 忽略带关键字的文件
 .mxproject
 200A_Current_detect.ioc
-stm32f1xx*
-system_stm32f1xx.*
+stm32f1xx_hal*
+system_stm32f1xx*
 
 # 直接忽略文件夹
 MDK-ARM/
